@@ -9,7 +9,7 @@ import {XLarge} from './directives/x-large';
   // The selector is what angular internally uses
   // for `document.querySelectorAll(selector)` in our index.html
   // where, in this case, selector is the string 'app'
-  selector: 'home',  // <home></home>
+  selector: 'homet',  // <home></home>
   // We need to tell Angular's Dependency Injection which providers are in our app.
   providers: [
     Title
@@ -23,11 +23,11 @@ import {XLarge} from './directives/x-large';
   // We need to tell Angular's compiler which custom pipes are in our template.
   pipes: [ ],
   // Our list of styles in our component. We may add more to compose many styles together
-  styles: [ require('./home.css') ],
+  styles: [ require('./homet.css') ],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
-  template: require('./home.html')
+  template: require('./homet.html')
 })
-export class Home {
+export class Homet {
   // TypeScript public modifiers
   constructor(public title: Title, public http: Http) {
 

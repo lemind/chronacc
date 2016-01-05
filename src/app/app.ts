@@ -5,7 +5,8 @@ import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {FORM_PROVIDERS} from 'angular2/common';
 
-import {Home} from './home/home';
+import {Homet} from './homet/homet';
+import {Home} from './components/home/home';
 
 /*
  * App Component
@@ -21,8 +22,8 @@ import {Home} from './home/home';
     <header>
       <nav>
         <h1>Hello {{ name }}</h1>
-        <a [routerLink]=" ['Index'] ">Index</a>
         <a [routerLink]=" ['Home'] ">Home</a>
+        <a [routerLink]=" ['Homet'] ">Homet</a>
       </nav>
     </header>
 
@@ -36,8 +37,8 @@ import {Home} from './home/home';
   `
 })
 @RouteConfig([
-  { path: '/', component: Home, name: 'Index' },
-  { path: '/home', component: Home, name: 'Home' }
+  { path: '/', component: Home, name: 'Home' },
+  { path: '/homet', component: Homet, name: 'Homet' }
 ])
 export class App {
   name = 'Angular 2 Webpack Starter';
