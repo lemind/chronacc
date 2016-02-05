@@ -62,6 +62,6 @@
   {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
   <script src="{%= o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
   {% } %}
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js"></script>
 </body>
 </html>

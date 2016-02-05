@@ -1,0 +1,5 @@
+<div>
+  <span>{{task | json}}</span>
+  <span>{{ task.id }}</span> | <span>{{ task.time | msTime }}</span>
+  <button (click)="timer.timerStart(task)">Start</button>
+</div>

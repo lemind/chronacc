@@ -1,3 +1,13 @@
 <div>
-	<span class="title">home</span>
+  <span class="title">home</span>
+  <timer #timer></timer>
+  <div>
+    <task-item *ngFor="#task of tasksX | async" [timer]="timer" [task]="task"></task-item>
+  </div>
+  <span>----------------------------------</span>
+  <ul>
+    <li *ngFor="#task of tasks">
+      <span>{{ task.id }}</span> | <span>{{ task.time | msTime }}</span>
+    </li>
+  </ul>
 </div>
