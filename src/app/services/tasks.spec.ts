@@ -8,17 +8,15 @@ import {
 } from 'angular2/testing';
 
 // Load the implementations that should be tested
-import {Home} from './home';
-import {TasksService} from '../../services/tasks';
+import {TasksService} from './tasks';
 
 describe('Home', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEachProviders(() => [
-    Home,
     TasksService
   ]);
 
-  it('should ...', inject([ Home ], (home) => {
+  it('should ...', inject([ TasksService ], (taskService) => {
     expect(1).toEqual(1);
   }));
 });

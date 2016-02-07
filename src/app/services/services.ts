@@ -1,7 +1,7 @@
-import {taskServiceInjectables} from './task';
+import {tasksServiceInjectables} from './tasks';
 
-export * from './task';
+export * from './tasks';
 
 export var servicesInjectables: Array<any> = [
-  taskServiceInjectables,
+  tasksServiceInjectables,
 ];

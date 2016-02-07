@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy} from 'angular2/core';
 
 import {Timer} from './components/timer';
 import {TaskItem} from './components/TaskItem';
-import {TaskService} from '../../services/task';
+import {TasksService} from '../../services/tasks';
 import {Task} from '../../models/task';
 import {MsTimePipe} from '../../pipes/ms-time';
 import {Observable} from 'rxjs';
@@ -23,14 +23,15 @@ export class Home {
   public tasks: Task[] = [];
   public tasksX: Observable<any>;
 
-  constructor(public _taskService: TaskService) {
+  constructor(public _tasksService: TasksService) {
 
   }
 
   ngOnInit() {
-    this._taskService.getTasks().then(tasks => this.tasks = tasks);
+    console.log('CMP - home');
+    this._tasksService.getTasks().then(tasks => this.tasks = tasks);
 
-    this.tasksX = this._taskService.tasksX;
+    this.tasksX = this._tasksService.tasksX;
 
     this.tasksX.subscribe(
       (tasksX: Array<Task>) => {

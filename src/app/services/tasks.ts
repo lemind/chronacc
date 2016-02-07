@@ -9,7 +9,7 @@ interface ITasksOperation extends Function {
 }
 
 @Injectable()
-export class TaskService {
+export class TasksService {
   tasksX: Observable<Task[]>;
   newTasks: Subject<Task> = new Subject<Task>();
   updates: Subject<any> = new Subject<any>();
@@ -60,6 +60,6 @@ export class TaskService {
   }
 }
 
-export var taskServiceInjectables: Array<any> = [
-  bind(TaskService).toClass(TaskService)
+export var tasksServiceInjectables: Array<any> = [
+  bind(TasksService).toClass(TasksService)
 ];

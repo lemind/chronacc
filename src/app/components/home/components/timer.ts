@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from 'angular2/core';
-import {TaskService} from '../../../services/task';
+import {TasksService} from '../../../services/tasks';
 import {Task} from '../../../models/task';
 import {MsTimePipe} from '../../../pipes/ms-time';
 import {Observable} from 'rxjs';
@@ -24,13 +24,13 @@ export class Timer {
   tasks: Task[] = [];
   public tasksX: Observable<any>;
 
-  constructor(public _taskService: TaskService) {
+  constructor(public _tasksService: TasksService) {
     this.timerActive = false;
     this.actionTitle = 'Start';
   }
 
   ngOnInit() {
-    this.tasksX = this._taskService.tasksX;
+    this.tasksX = this._tasksService.tasksX;
 
     this.tasksX.subscribe(
       (tasksX: Array<Task>) => {
@@ -48,6 +48,9 @@ export class Timer {
   }
 
   timerStart(oldTask?: Task) {
+    if (this.timerActive) {
+      this.timerStop();
+    }
     if (oldTask) {
       this.currentTask = oldTask;
       this.currentStartTime = new Date().getTime() - oldTask.time;
@@ -63,8 +66,8 @@ export class Timer {
     console.log('timerStop');
     clearTimeout(this.timerToken);
     this.actionTitle = 'Start';
-    this.timerActive = !this.timerActive;
-    this._taskService.updateTask(this.currentStartTime, new Date().getTime(), this.currentTime, this.currentTask);
+    this.timerActive = false;
+    this._tasksService.updateTask(this.currentStartTime, new Date().getTime(), this.currentTime, this.currentTask);
     this.currentTask = null;
     this.currentTime = 0;
   }
@@ -75,9 +78,5 @@ export class Timer {
 
   getCurrentTime() {
     return new Date().getTime() - this.currentStartTime;
-  }
-
-  test() {
-    console.log('test', this.currentTime);
   }
 }

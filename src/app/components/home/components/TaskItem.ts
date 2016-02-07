@@ -1,8 +1,7 @@
-import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
-import {TaskService} from '../../../services/task';
+import {Component, Input} from 'angular2/core';
+import {TasksService} from '../../../services/tasks';
 import {Task} from '../../../models/task';
 import {MsTimePipe} from '../../../pipes/ms-time';
-import {Observable} from 'rxjs';
 import {Timer} from './timer';
 var moment = require('moment');
 
@@ -18,12 +17,11 @@ export class TaskItem {
   @Input() task: Task;
   @Input() timer: Timer;
 
-  constructor(public _taskService: TaskService) {
+  constructor(public _tasksService: TasksService) {
 
   }
 
   ngOnInit() {
-    console.log('task item ', this.task);
-    console.log('--------- ', this.timer);
+    console.log('CMP - task item ', this.task, this.timer);
   }
 }
