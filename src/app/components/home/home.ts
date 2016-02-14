@@ -38,5 +38,4 @@ export class Home {
         console.log('home tasksX', tasksX);
     });
   }
-
 }

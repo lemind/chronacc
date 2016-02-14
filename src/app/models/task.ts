@@ -5,6 +5,7 @@ export class Task {
 }
 
 export class Period {
+  task: Task;
   b: number;
   e: number;
 }

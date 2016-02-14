@@ -9,11 +9,13 @@ import {
 
 // Load the implementations that should be tested
 import {TasksService} from './tasks';
+import {PeriodsService} from './periods';
 
 describe('Home', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEachProviders(() => [
-    TasksService
+    TasksService,
+    PeriodsService
   ]);
 
   it('should ...', inject([ TasksService ], (taskService) => {
