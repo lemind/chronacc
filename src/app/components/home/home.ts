@@ -15,7 +15,7 @@ import {Observable} from 'rxjs';
   //changeDetection: ChangeDetectionStrategy.OnPushObserve,
   //changeDetection: ChangeDetectionStrategy.OnPush,
   pipes: [ MsTimePipe ],
-  styles: [ require('./home.css') ],
+  styles: [ require('./home.less') ],
   template: require('./home.html')
 })
 export class Home {

@@ -44,7 +44,7 @@ module.exports = {
 
   resolve: {
     // ensure loader extensions match
-    extensions: ['','.ts','.js','.json','.css','.html'],
+    extensions: ['','.ts','.js','.json','.css','.html','.less'],
   },
 
   module: {
@@ -75,7 +75,7 @@ module.exports = {
       { test: /\.html$/,  loader: 'raw-loader' },
 
       // LESS
-      { test: /\.less$/,  loader: 'style!css!less' },
+      { test: /\.less$/,  exclude: /node_modules/,  loader: 'raw-loader!less-loader'}
       // if you add a loader include the resolve file extension above
     ]
   },

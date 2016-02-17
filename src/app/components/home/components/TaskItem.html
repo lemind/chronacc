@@ -1,7 +1,6 @@
-<div>
-  <span>{{task | json}}</span>
-  <div>
+<div class="wrapper">
+  <div class="item" [ngClass]="{active: task.active}">
     <span>{{ task.id }}</span> | <span>{{ task.time | msTime }}</span>
-    <button (click)="timer.timerStart(task)">Start</button>
+    <button (click)="oldTaskStart()">Start</button>
   </div>
 </div>

@@ -1,6 +1,7 @@
-<div>
+<div class="wrapper">
   <span class="title">home</span>
   <timer #timer></timer>
+  <span>----------------------------------</span>
   <div>
     <task-item *ngFor="#task of tasksX | async" [timer]="timer" [task]="task"></task-item>
   </div>

@@ -55,8 +55,6 @@ export class TasksService {
       //let newTask: Task = {'id': taskId, 'time': time, 'periods': [{b: beginTime, e: endTime}]};
       task = this.createTasks(time, oldTask);
     } else {
-
-      //если время след день от последнего периода, то заводим новый такс.
       let lastPeriods: Observable<Period[]>;
       let lastPeriodCurrentTask: Period;
       lastPeriods = this._periodsService.periods.map((periods: Period[]) => {
@@ -72,6 +70,7 @@ export class TasksService {
         task = this.createTasks(time, oldTask);
       } else {
         oldTask.time = time;
+        oldTask.active = false;
         let newPeriod: Period = {task: oldTask, b: beginTime, e: endTime};
         //oldTask.periods.push(newPeriod);
         task = oldTask;
@@ -92,7 +91,7 @@ export class TasksService {
 
     let taskId = oldTask ? oldTask.id : String(++lastId);
 
-    let newTask: Task = {'id': taskId, 'time': time, 'periods': []};
+    let newTask: Task = {'id': taskId, 'time': time, 'periods': [], active: false};
     tasks.push(newTask);
     this.newTasks.next(newTask);
     return newTask;
