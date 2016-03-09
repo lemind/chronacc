@@ -1,6 +1,9 @@
 <div class="wrapper">
   <div class="item" [ngClass]="{active: task.active}">
-    <span>{{ task.id }}</span> | <span>{{ task.time | msTime }}</span>
-    <button (click)="oldTaskStart()">Start</button>
+    <span>{{ task.id }}</span> |
+    <span>{{ task.name }}</span> |
+    <span>{{ task.time | msTime }}</span> |
+    <span>{{ task.project ? task.project.name : ''}}</span>
+    <button [ngClass]="{hide: task.active}" (click)="oldTaskStart()">Start</button>
   </div>
 </div>

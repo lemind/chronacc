@@ -12,16 +12,17 @@ import {
 import {TasksService} from '../../../services/tasks';
 import {PeriodsService} from '../../../services/periods';
 import {Timer} from './timer';
-import {Task} from '../../../models/task';
 
 describe('Timer', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEachProviders(() => [
     Timer,
     TasksService,
-    PeriodsService,
-    Task
+    PeriodsService
   ]);
+
+  // beforeEach(() => {
+  // });
 
   it('should invoke timer action func depends on timer status', inject([ Timer ], (timer) => {
     timer.timerActive = true;
@@ -52,18 +53,6 @@ describe('Timer', () => {
     timer.timerStart();
     expect(timer.timerActive).toEqual(true);
   }));
-
-  // it('should set currentTask if there is oldTask in params', inject([ Timer ], (timer) => {
-  //   let task: Task = {'id': '1', 'time': 1000, 'periods': [{b: 0, e: 1000}]};
-  //   timer.timerStart(task);
-  //   expect(timer.currentTask).toEqual(task);
-  // }));
-
-  // it('should set correct currentStartTime if there is oldTask in params', inject([ Timer ], (timer) => {
-  //   let task: Task = {'id': '1', 'time': 1000, 'periods': [{b: 0, e: 1000}]};
-  //   timer.timerStart(task);
-  //   expect(new Date().getTime() - timer.currentStartTime).not.toBeLessThan(900);
-  // }));
 
   it('should set correct currentStartTime if there is not oldTask in params', inject([ Timer ], (timer) => {
     timer.timerStart();

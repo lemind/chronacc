@@ -1,8 +1,10 @@
 import {Injectable, bind} from 'angular2/core';
 import {tasks} from './mock-task';
 import {Task, Period} from '../models/task';
+import {Project} from '../models/project';
+import {Tag} from '../models/tag';
 import {PeriodsService} from './periods';
-import {Subject, Observable} from 'rxjs';
+import {Subject, Observable, BehaviorSubject} from 'rxjs';
 var moment = require('moment');
 
 let initialTasks: Task[] = [];
@@ -16,6 +18,9 @@ export class TasksService {
   newTasks: Subject<Task> = new Subject<Task>();
   updates: Subject<any> = new Subject<any>();
   create: Subject<Task> = new Subject<Task>();
+
+  currentTask: Subject<Task> =
+    new BehaviorSubject<Task>(new Task());
 
   constructor(public _periodsService: PeriodsService) {
      this.tasksX = this.updates
@@ -42,45 +47,43 @@ export class TasksService {
       (tasksX: Array<Task>) => {
         console.log('service tasksX', tasksX);
     });
+
+    this.setCurrentTask(new Task());
   }
 
   getTasks() {
   	return Promise.resolve(tasks);
   }
 
-  updateTask(beginTime: number, endTime: number, time: number, oldTask?: Task) {
+  updateTask(beginTime: number, endTime: number, time: number, oldTask: Task) {
     let task: Task;
+    let lastPeriods: Observable<Period[]>;
+    let lastPeriodCurrentTask: Period;
+    lastPeriods = this._periodsService.periods.map((periods: Period[]) => {
+      return periods.filter((period: Period) => {
+        return period.task.id === oldTask.id;
+      });
+    });
+    lastPeriods.subscribe((periods: Array<Period>) => {
+      lastPeriodCurrentTask = periods[periods.length - 1];
+    });
 
-    if (!oldTask) {
-      //let newTask: Task = {'id': taskId, 'time': time, 'periods': [{b: beginTime, e: endTime}]};
-      task = this.createTasks(time, oldTask);
+    //if now next day create new task
+    if (lastPeriodCurrentTask && moment(beginTime).day() !== moment(lastPeriodCurrentTask.e).day()) {
+      task = this.createTasks(time, oldTask.name);
     } else {
-      let lastPeriods: Observable<Period[]>;
-      let lastPeriodCurrentTask: Period;
-      lastPeriods = this._periodsService.periods.map((periods: Period[]) => {
-        return periods.filter((period: Period) => {
-          return period.task.id === oldTask.id;
-        });
-      });
-      lastPeriods.subscribe((periods: Array<Period>) => {
-        lastPeriodCurrentTask = periods[periods.length - 1];
-      });
-      //if now next day create new task
-      if (moment(beginTime).day() !== moment(lastPeriodCurrentTask.e).day()) {
-        task = this.createTasks(time, oldTask);
-      } else {
-        oldTask.time = time;
-        oldTask.active = false;
-        let newPeriod: Period = {task: oldTask, b: beginTime, e: endTime};
-        //oldTask.periods.push(newPeriod);
-        task = oldTask;
-      }
+      oldTask.time = time;
+      oldTask.active = false;
+      let newPeriod: Period = {task: oldTask, b: beginTime, e: endTime};
+      //oldTask.periods.push(newPeriod);
+      task = oldTask;
     }
+
     let newPeriod: Period = {task: task, b: beginTime, e: endTime};
     this._periodsService.addPeriod(newPeriod);
   }
 
-  createTasks(time: number, oldTask?: Task) {
+  createTasks(time: number, name?: string, project?: any) {
     let lastId;
 
     if (tasks.length > 0) {
@@ -89,12 +92,23 @@ export class TasksService {
       lastId = 0;
     }
 
-    let taskId = oldTask ? oldTask.id : String(++lastId);
+    let taskId = String(++lastId);
 
-    let newTask: Task = {'id': taskId, 'time': time, 'periods': [], active: false};
+    let newTask: Task = new Task();
+    newTask.id = taskId;
+    newTask.time = time;
+    newTask.name = name;
+    newTask.project = project;
+    newTask.active = true;
+
     tasks.push(newTask);
     this.newTasks.next(newTask);
+    this.currentTask.next(newTask);
     return newTask;
+  }
+
+  setCurrentTask(currentTask: Task) {
+    this.currentTask.next(currentTask);
   }
 }
 

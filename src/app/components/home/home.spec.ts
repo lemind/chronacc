@@ -11,13 +11,15 @@ import {
 import {Home} from './home';
 import {TasksService} from '../../services/tasks';
 import {PeriodsService} from '../../services/periods';
+import {ProjectsService} from '../../services/services';
 
 describe('Home', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEachProviders(() => [
     Home,
     TasksService,
-    PeriodsService
+    PeriodsService,
+    ProjectsService
   ]);
 
   it('should ...', inject([ Home ], (home) => {

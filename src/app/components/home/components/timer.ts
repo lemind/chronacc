@@ -1,6 +1,8 @@
-import {Component, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
 import {TasksService} from '../../../services/tasks';
 import {Task} from '../../../models/task';
+import {Project} from '../../../models/project';
+import {Tag} from '../../../models/tag';
 import {MsTimePipe} from '../../../pipes/ms-time';
 import {Observable} from 'rxjs';
 var moment = require('moment');
@@ -21,6 +23,7 @@ export class Timer {
   actionTitle: string;
   timerActive: boolean;
   currentTask: Task;
+  previouslyTask: Task;
   tasks: Task[] = [];
   public tasksX: Observable<any>;
 
@@ -37,6 +40,11 @@ export class Timer {
         console.log('timer tasksX', tasksX);
     });
 
+    this._tasksService.currentTask.subscribe(
+      (task: Task) => {
+        this.previouslyTask = task;
+      });
+
   }
 
   timerAction() {
@@ -48,6 +56,18 @@ export class Timer {
   }
 
   timerStart(oldTask?: Task) {
+    let draftName;
+    let draftProject;
+
+    if (this.previouslyTask) {
+      if (this.previouslyTask.name) {
+        draftName = this.previouslyTask.name;
+      }
+      if (this.previouslyTask.project) {
+        draftProject = this.previouslyTask.project;
+      }
+    }
+
     if (this.timerActive) {
       this.timerStop();
     }
@@ -56,6 +76,11 @@ export class Timer {
       this.currentStartTime = new Date().getTime() - oldTask.time;
     } else {
       this.currentStartTime = new Date().getTime();
+      this.currentTask = this._tasksService.createTasks(
+          0,
+          draftName || '',
+          draftProject || null
+        );
     }
     this.timerTick();
     this.timerActive = true;
@@ -70,6 +95,7 @@ export class Timer {
     this._tasksService.updateTask(this.currentStartTime, new Date().getTime(), this.currentTime, this.currentTask);
     this.currentTask = null;
     this.currentTime = 0;
+    this._tasksService.currentTask.next(new Task());
   }
 
   timerTick() {

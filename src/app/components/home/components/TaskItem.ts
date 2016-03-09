@@ -30,5 +30,6 @@ export class TaskItem {
   oldTaskStart() {
     this.task.active = true;
     this.timer.timerStart(this.task);
+    this._tasksService.setCurrentTask(this.task);
   }
 }
