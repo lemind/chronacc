@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy} from 'angular2/core';
+import {Observable} from 'rxjs';
 
 import {Timer} from './components/timer';
 import {TaskItem} from './components/TaskItem';
@@ -11,7 +12,6 @@ import {Task} from '../../models/task';
 import {Project} from '../../models/project';
 
 import {MsTimePipe} from '../../pipes/ms-time';
-import {Observable} from 'rxjs';
 
 @Component({
   inputs: ['task'],

@@ -32,6 +32,7 @@ Thumbs.db
 
 # Node Files #
 /node_modules
+/back/node_modules
 /bower_components
 
 # Coverage #

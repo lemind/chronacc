@@ -44,7 +44,6 @@ export class CurrentTask {
   }
 
   changeProject(event) {
-    console.log('1-1-11', event);
     var selectedProject: any = this.projects.map((projects: any) => {
       return projects.filter((project: any) => {
         return project.id === event;
