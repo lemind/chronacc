@@ -43,7 +43,7 @@ export class Home {
 
     this.tasksX.subscribe(
       (tasksX: Array<Task>) => {
-        console.log('home tasksX', tasksX);
+        //console.log('home tasksX', tasksX);
     });
   }
 }

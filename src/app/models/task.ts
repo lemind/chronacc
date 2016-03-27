@@ -23,4 +23,10 @@ export class Period {
   task: Task;
   b: number;
   e: number;
+
+  constructor(obj?: any) {
+    this.task         = obj && obj.task         || null;
+    this.b            = obj && obj.b            || null;
+    this.e            = obj && obj.e            || null;
+  }
 }

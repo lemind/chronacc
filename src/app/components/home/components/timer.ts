@@ -37,12 +37,13 @@ export class Timer {
 
     this.tasksX.subscribe(
       (tasksX: Array<Task>) => {
-        console.log('timer tasksX', tasksX);
+        //console.log('timer tasksX', tasksX);
     });
 
     this._tasksService.currentTask.subscribe(
       (task: Task) => {
         this.previouslyTask = task;
+        this.currentTask = task;
       });
 
   }
@@ -73,11 +74,18 @@ export class Timer {
     }
     if (oldTask) {
       this.currentTask = oldTask;
+      this.currentTask.active = true;
       this.currentStartTime = new Date().getTime() - oldTask.time;
+      this._tasksService.updateTask(
+        this.currentStartTime,
+        null,
+        this.currentTask.time,
+        this.currentTask);
     } else {
       this.currentStartTime = new Date().getTime();
-      this.currentTask = this._tasksService.createTasks(
+      this._tasksService.createTasks(
           0,
+          this.currentStartTime,
           draftName || '',
           draftProject || null
         );
@@ -88,11 +96,15 @@ export class Timer {
   }
 
   timerStop() {
-    console.log('timerStop');
     clearTimeout(this.timerToken);
     this.actionTitle = 'Start';
     this.timerActive = false;
-    this._tasksService.updateTask(this.currentStartTime, new Date().getTime(), this.currentTime, this.currentTask);
+    this.currentTask.active = false;
+    this._tasksService.updateTask(
+      this.currentStartTime,
+      new Date().getTime(),
+      this.currentTime,
+      this.currentTask);
     this.currentTask = null;
     this.currentTime = 0;
     this._tasksService.currentTask.next(new Task());

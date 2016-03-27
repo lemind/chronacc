@@ -37,15 +37,32 @@ export class PeriodsService {
 
     this.periods.subscribe(
       (periods: Array<Period>) => {
-        console.log('service periods', periods);
+        //console.log('service periods', periods);
     });
 
   }
 
   addPeriod(newPeriod?: Period) {
-    this.newPeriods.next(newPeriod);
-  }
+    let lastPeriods: Observable<Period[]>;
+    let periodsArray: Period[] = [];
+    let lastPeriodCurrentTask: Period;
 
+    lastPeriods = this.periods.map((periods: Period[]) => {
+      return periods.filter((period: Period) => {
+        return period.task.id === newPeriod.task.id;
+      });
+    });
+
+    lastPeriods.subscribe((periods: Array<Period>) => {
+      lastPeriodCurrentTask = periods[periods.length - 1];
+    });
+
+    if (lastPeriodCurrentTask && !lastPeriodCurrentTask.e) {
+      lastPeriodCurrentTask.e = newPeriod.e;
+    } else {
+      this.newPeriods.next(newPeriod);
+    }
+  }
 }
 
 export var periodsServiceInjectables: Array<any> = [

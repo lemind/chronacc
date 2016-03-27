@@ -29,7 +29,7 @@ export class CurrentTask {
 
     this.projects.subscribe(
       (project: any) => {
-        console.log('project--- ', project);
+        //console.log('project--- ', project);
       });
 
     this._tasksService.currentTask.subscribe(
