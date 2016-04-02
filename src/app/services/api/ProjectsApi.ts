@@ -12,17 +12,12 @@ export class ProjectsApi {
   };
 
   constructor(private _http: Http) {
-    this.projects = new Observable(subscriber => 
+    this.projects = new Observable(subscriber =>
       this._projectsSubscriber = subscriber)
         .publishReplay(1)
         .refCount();
-  
-    this._dataStore = { projects: [] };
 
-    this.projects.subscribe(
-      (project: Array<Project>) => {
-        //console.log('service tasksX999', project);
-    });
+    this._dataStore = { projects: [] };
   }
 
   loadProjects() {
@@ -31,7 +26,7 @@ export class ProjectsApi {
         this._dataStore.projects.push(new Project(data[i]));
       }
       this._projectsSubscriber.next(this._dataStore.projects);
-    }, error => console.log('Could not load projects.'));
+    }, error => console.log('Could not load projects.', error));
   }
 
 }

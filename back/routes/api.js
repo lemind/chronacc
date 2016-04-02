@@ -37,6 +37,7 @@ router.post('/task', function(req, res, next) {
   task.date = year + "/" + month + "/" + day;
   task.tags = '';
   task.status = 1;
+  reqData.task.periods = reqData.periods;
   task.periods = JSON.stringify(reqData.periods);
   task.user_id = 1;
 
@@ -59,6 +60,7 @@ router.put('/task/:id', function(req, res, next) {
   task.project_id = reqData.task.project ? reqData.task.project.id : 1;
   task.tags = '';
   task.status = reqData.task.active ? 1 : 0;
+  reqData.task.periods = reqData.periods;
   task.periods = JSON.stringify(reqData.periods);
   task.user_id = 1;
 

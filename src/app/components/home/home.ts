@@ -36,14 +36,9 @@ export class Home {
   }
 
   ngOnInit() {
-    console.log('CMP - home');
     this._tasksService.getTasks().then(tasks => this.tasks = tasks);
 
     this.tasksX = this._tasksService.tasksX;
-
-    this.tasksX.subscribe(
-      (tasksX: Array<Task>) => {
-        //console.log('home tasksX', tasksX);
-    });
+    this._tasksService.loadTasks();
   }
 }

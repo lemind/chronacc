@@ -1,7 +1,7 @@
 <div class="wrapper">
   <h1 class="title">home</h1>
   <timer #timer></timer>
-  <current-task></current-task>
+  <current-task [timer]="timer"></current-task>
   <span>----------------------------------</span>
   <div>
     <task-item *ngFor="#task of tasksX | async" [timer]="timer" [task]="task"></task-item>

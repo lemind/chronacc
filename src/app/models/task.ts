@@ -8,6 +8,8 @@ export class Task {
   active: boolean;
   name: string;
   project: Project;
+  projectId: string;
+  data: string;
 
   constructor(obj?: any) {
     this.id              = obj && obj.id              || '0';
@@ -16,6 +18,8 @@ export class Task {
     this.active          = obj && obj.active          || false;
     this.name            = obj && obj.name            || null;
     this.project         = obj && obj.project         || null;
+    this.projectId       = obj && obj.projectId       || '1';
+    this.data            = obj && obj.data            || '';
   }
 }
 

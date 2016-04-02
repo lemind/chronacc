@@ -1,6 +1,7 @@
 <div class="wrapper">
   <div class="item" [ngClass]="{active: task.active}">
     <span>{{ task.id }}</span> |
+    <span>{{ task.data }}</span> |
     <span>{{ task.name }}</span> |
     <span>{{ task.time | msTime }}</span> |
     <span>{{ task.project ? task.project.name : ''}}</span>

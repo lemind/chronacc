@@ -2,6 +2,8 @@ import {Injectable, bind} from 'angular2/core';
 import {Task, Period} from '../models/task';
 import {Subject, Observable} from 'rxjs';
 
+import {TasksApi} from './api/TasksApi';
+
 let initialTasks: Period[] = [];
 interface IPeriodsOperation extends Function {
   (periods: Period[]): Period[];
@@ -14,7 +16,7 @@ export class PeriodsService {
   updates: Subject<any> = new Subject<any>();
   create: Subject<Period> = new Subject<Period>();
 
-  constructor() {
+  constructor(public _tasksApi: TasksApi) {
     this.periods = this.updates
       .scan((periods: Period[],
              operation: IPeriodsOperation) => {
@@ -35,11 +37,21 @@ export class PeriodsService {
     this.newPeriods
       .subscribe(this.create);
 
-    this.periods.subscribe(
-      (periods: Array<Period>) => {
-        //console.log('service periods', periods);
+    //why do it need me?
+    this.periods.subscribe((pr: Period[]) => {
+      //console.log('pr', pr);
     });
 
+    this._tasksApi.tasks.subscribe((tasks: Task[]) => {
+      for (let i = 0; i < tasks.length; i++) {
+        for (var j = 0; j < tasks[i].periods.length; j++) {
+          let period = tasks[i].periods[j];
+          period.task = tasks[i];
+          let newPeriod: Period = new Period(period);
+          this.newPeriods.next(newPeriod);
+        }
+      }
+    });
   }
 
   addPeriod(newPeriod?: Period) {
@@ -62,6 +74,23 @@ export class PeriodsService {
     } else {
       this.newPeriods.next(newPeriod);
     }
+  }
+
+  getLastPeriodByTaskId(taskId?: string) {
+    let lastPeriods: Observable<Period[]>;
+    let lastPeriodCurrentTask: Period;
+
+    lastPeriods = this.periods.map((periods: Period[]) => {
+      return periods.filter((period: Period) => {
+        return period.task.id === taskId;
+      });
+    });
+
+    lastPeriods.subscribe((periods: Array<Period>) => {
+      lastPeriodCurrentTask = periods[periods.length - 1];
+    });
+
+    return lastPeriodCurrentTask;
   }
 }
 

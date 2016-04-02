@@ -5,16 +5,18 @@ import {Task} from '../../../models/task';
 import {Project} from '../../../models/project';
 import {ProjectsService} from '../../../services/services';
 import {Observable} from 'rxjs';
+import {Timer} from './timer';
 
 @Component({
   selector: 'current-task',
   providers: [ ],
-  directives: [ NgClass ],
+  directives: [ Timer, NgClass ],
   pipes: [ ],
   template: require('./CurrentTask.html'),
   styles: [ require('./CurrentTask.less') ],
 })
 export class CurrentTask {
+  @Input() timer: Timer;
   currentTask: Task;
   projects: Observable<any[]>;
 
@@ -24,13 +26,7 @@ export class CurrentTask {
   }
 
   ngOnInit() {
-    console.log('CMP - current task ');
     this.projects = this._projectsService.projects;
-
-    this.projects.subscribe(
-      (project: any) => {
-        //console.log('project--- ', project);
-      });
 
     this._tasksService.currentTask.subscribe(
       (task: Task) => {
@@ -53,6 +49,7 @@ export class CurrentTask {
     selectedProject.subscribe(
       (project: any) => {
         this.currentTask.project = project;
+        this.currentTask.projectId = project.id;
       });
 
   }

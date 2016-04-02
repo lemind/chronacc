@@ -19,17 +19,12 @@ export class TaskItem {
   @Input() timer: Timer;
   isActive: boolean = true;
 
-  constructor(public _tasksService: TasksService) {
+  constructor(public _tasksService: TasksService) {}
 
-  }
-
-  ngOnInit() {
-    console.log('CMP - task item ', this.task, this.timer);
-  }
+  ngOnInit() {}
 
   oldTaskStart() {
     this.task.active = true;
     this.timer.timerStart(this.task);
-    this._tasksService.setCurrentTask(this.task);
   }
 }
