@@ -54,7 +54,11 @@ export class TasksService {
               oldTask = true;
             }
           });
-          return oldTask ? tasks : tasks.concat(task);
+          let sortedTasks = oldTask ? tasks : tasks.concat(task);
+          sortedTasks.sort((a, b) => {
+            return parseInt(b.id) - parseInt(a.id);
+          })
+          return sortedTasks;
         };
       })
       .subscribe(this.updates);

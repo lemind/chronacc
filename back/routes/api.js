@@ -38,6 +38,7 @@ router.post('/task', function(req, res, next) {
   task.tags = '';
   task.status = 1;
   reqData.task.periods = reqData.periods;
+  reqData.task.data = task.date;
   task.periods = JSON.stringify(reqData.periods);
   task.user_id = 1;
 
