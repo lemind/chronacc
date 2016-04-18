@@ -1,5 +1,6 @@
 <div class="wrapper">
-  <input [(ngModel)]="currentTask.name">
+  <input [(ngModel)]="currentTask.name"
+    (blur)="nameOnBlur($event)">
   <select required [ngModel]="setProject(currentTask.project)" (ngModelChange)="changeProject($event)" >
     <option *ngFor="#p of projects | async" [value]="p.id">{{p.name}}</option>
   </select>

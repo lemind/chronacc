@@ -76,7 +76,7 @@ export class PeriodsService {
     }
   }
 
-  getLastPeriodByTaskId(taskId?: string) {
+  getLastPeriodByTaskId(taskId: string) {
     let lastPeriods: Observable<Period[]>;
     let lastPeriodCurrentTask: Period;
 
@@ -91,6 +91,21 @@ export class PeriodsService {
     });
 
     return lastPeriodCurrentTask;
+  }
+
+  getPeriodsByTaskId(taskId: String) {
+    let periods: Observable<Period[]>;
+    let periodsArray: Period[] = [];
+
+    periods = this.periods.map((periods: Period[]) => {
+      return periods.filter((period: Period) => {
+        return period.task.id === taskId;
+      });
+    });
+    periods.subscribe((periods: Array<Period>) => {
+      periodsArray = periods;
+    });
+    return periodsArray;
   }
 }
 

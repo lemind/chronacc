@@ -39,6 +39,7 @@ export class CurrentTask {
     });
   }
 
+  //ToDo: why invoke twice?
   changeProject(event) {
     var selectedProject: any = this.projects.map((projects: any) => {
       return projects.filter((project: any) => {
@@ -52,6 +53,11 @@ export class CurrentTask {
         this.currentTask.projectId = project.id;
       });
 
+    this._tasksService.updateTask(this.currentTask);
+  }
+
+  nameOnBlur(event) {
+    this._tasksService.updateTask(this.currentTask);
   }
 
   setProject(project?) {

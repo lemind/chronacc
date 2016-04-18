@@ -57,7 +57,7 @@ export class TasksService {
           let sortedTasks = oldTask ? tasks : tasks.concat(task);
           sortedTasks.sort((a, b) => {
             return parseInt(b.id) - parseInt(a.id);
-          })
+          });
           return sortedTasks;
         };
       })
@@ -103,20 +103,14 @@ export class TasksService {
     this._tasksApi.loadTasks();
   }
 
-  updateTask(beginTime: number, endTime: number, time: number, oldTask: Task) {
+  prepareUpdateTask(beginTime: number, endTime: number, time: number, oldTask: Task) {
     let task: Task;
-    let lastPeriods: Observable<Period[]>;
     let periodsArray: Period[] = [];
     let lastPeriodCurrentTask: Period;
     let newTaskFl = false;
-    lastPeriods = this._periodsService.periods.map((periods: Period[]) => {
-      return periods.filter((period: Period) => {
-        return period.task.id === oldTask.id;
-      });
-    });
-    lastPeriods.subscribe((periods: Array<Period>) => {
-      lastPeriodCurrentTask = periods[periods.length - 1];
-    });
+
+    periodsArray = this._periodsService.getPeriodsByTaskId(oldTask.id);
+    lastPeriodCurrentTask = periodsArray[periodsArray.length - 1];
 
     //if now is next day create new task
     if (lastPeriodCurrentTask && lastPeriodCurrentTask.e && moment(beginTime).day() !== moment(lastPeriodCurrentTask.e).day()) {
@@ -131,12 +125,16 @@ export class TasksService {
     let newPeriod: Period = {task: task, b: beginTime, e: endTime || null};
     this._periodsService.addPeriod(newPeriod);
 
-    lastPeriods.subscribe((periods: Array<Period>) => {
-      periodsArray = periods;
-    });
-
-    !newTaskFl && this._tasksApi.updateTask(task, periodsArray);
+    !newTaskFl && this.updateTask(task);
     return newTaskFl;
+  }
+
+  updateTask(task: Task) {
+    let periodsArray: Period[] = [];
+
+    periodsArray = this._periodsService.getPeriodsByTaskId(task.id);
+
+    this._tasksApi.updateTask(task, periodsArray);
   }
 
   createTasks(time: number, beginTime: number, name?: string, project?: any) {
@@ -163,6 +161,7 @@ export class TasksService {
   setCurrentTask(currentTask: Task) {
     this.currentTask.next(currentTask);
   }
+
 }
 
 export var tasksServiceInjectables: Array<any> = [

@@ -86,7 +86,7 @@ export class Timer {
 
       if (this._periodsService.getLastPeriodByTaskId(oldTask.id).e) {
         this.currentStartTime = new Date().getTime() - oldTask.time;
-        newTaskFl = this._tasksService.updateTask(
+        newTaskFl = this._tasksService.prepareUpdateTask(
           this.currentStartTime + oldTask.time,
           null,
           this.currentTask.time,
@@ -119,7 +119,7 @@ export class Timer {
     this.timerActive = false;
     this.currentTask.active = false;
 
-    this._tasksService.updateTask(
+    this._tasksService.prepareUpdateTask(
       this.currentStartTime,
       new Date().getTime(),
       this.currentTime,
