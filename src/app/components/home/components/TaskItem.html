@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" (dblclick)="taskDblClick()">
   <div class="item" [ngClass]="{active: task.active}">
     <span>{{ task.id }}</span> |
     <span>{{ task.data }}</span> |
@@ -6,5 +6,12 @@
     <span>{{ task.time | msTime }}</span> |
     <span>{{ task.project ? task.project.name : ''}}</span>
     <button [ngClass]="{hide: task.active}" (click)="oldTaskStart()">Start</button>
+  </div>
+  <div class="item-edit" [ngClass]="{hide: !isEdit}">
+    <input [(ngModel)]="task.name"
+      (blur)="nameOnBlur($event)">
+    <select required [ngModel]="setProject(task.project)" (ngModelChange)="changeProject($event)" >
+      <option *ngFor="#p of projects | async" [value]="p.id">{{p.name}}</option>
+    </select>
   </div>
 </div>

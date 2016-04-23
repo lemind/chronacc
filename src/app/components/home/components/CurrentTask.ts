@@ -33,7 +33,7 @@ export class CurrentTask {
         this.currentTask = task;
       });
 
-    //ToDo Fix it later https://github.com/urish/angular2-moment/issues/14
+    //ToDo Fix it later https://github.com/angular/angular/issues/6005
     window.setTimeout(() => {
       this._projectsService.setProjects();
     });
