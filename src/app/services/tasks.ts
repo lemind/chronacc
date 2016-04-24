@@ -24,6 +24,7 @@ export class TasksService {
   newTasks: Subject<Task> = new Subject<Task>();
   updates: Subject<any> = new Subject<any>();
   create: Subject<Task> = new Subject<Task>();
+  firstTask: Task;
 
   currentTask: Subject<Task> =
     new BehaviorSubject<Task>(new Task());
@@ -80,6 +81,8 @@ export class TasksService {
         this.newTasks.next(newTask);
         newTask.active && this.currentTask.next(newTask);
       }
+      this.firstTask = tasks[0];
+      console.log('set start task', tasks.length, this.firstTask, tasks);
     });
 
     //ToDo: move to another func
@@ -100,7 +103,13 @@ export class TasksService {
   }
 
   loadTasks() {
-    this._tasksApi.loadTasks();
+    if (this.firstTask) {
+      let endDate = moment(this.firstTask.data, 'DD/MM/YY').format('YYYY-MM-DD');
+      let beginDate = moment(endDate, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD');
+      this._tasksApi.loadTasks(beginDate, endDate);
+    } else {
+      this._tasksApi.loadTasks();
+    }
   }
 
   prepareUpdateTask(beginTime: number, endTime: number, time: number, oldTask: Task) {

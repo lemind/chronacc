@@ -30,9 +30,13 @@ export class TasksApi {
         .refCount();
   }
 
-  loadTasks() {
-    this._http.get('http://localhost:3000/api/tasks').map(response => response.json()).subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
+  loadTasks(beginDate?: string, endDate?: string) {
+    let url = 'http://localhost:3000/api/tasks';
+    if (beginDate && endDate) {
+      url += '/' + beginDate + '/' + endDate;
+    }
+    this._http.get(url).map(response => response.json()).subscribe(data => {
+      for (var i = data.length - 1; i >= 0; i--) {
         let task: Task = new Task();
         task.id = data[i].id;
         task.name = data[i].desc;
@@ -42,7 +46,7 @@ export class TasksApi {
         task.periods = JSON.parse(data[i].periods);
         task.data = moment(task.periods[0].b).format('DD/MM/YY');
 
-        this._dataStore.tasks.push(task);
+        this._dataStore.tasks.unshift(task);
       }
       this._tasksSubscriber.next(this._dataStore.tasks);
     }, error => console.log('Could not load tasks.', error));

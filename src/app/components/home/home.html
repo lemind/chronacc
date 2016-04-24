@@ -2,11 +2,10 @@
   <h1 class="title">home</h1>
   <timer #timer></timer>
   <current-task [timer]="timer"></current-task>
-  <span>----------------------------------</span>
   <div>
     <task-item *ngFor="#task of tasksX | async" [timer]="timer" [task]="task"></task-item>
   </div>
-  <span>----------------------------------</span>
+  <button (click)="loadMoreTasks()">more...</button>
   <ul>
     <li *ngFor="#task of tasks">
       <span>{{ task.id }}</span> | <span>{{ task.time | msTime }}</span>

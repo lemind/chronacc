@@ -41,4 +41,8 @@ export class Home {
     this.tasksX = this._tasksService.tasksX;
     this._tasksService.loadTasks();
   }
+
+  loadMoreTasks() {
+    this._tasksService.loadTasks();
+  }
 }

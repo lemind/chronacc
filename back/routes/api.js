@@ -12,13 +12,35 @@ router.get('/', function(req, res, next) {
   res.send('api');
 });
 
-router.get('/tasks/:begin*?/:end*?', function(req, res, next) {
-  connection.query('SELECT * FROM `tasks` WHERE `user_id` = 1 ORDER BY `id` DESC LIMIT 0, 10', 
-    function(err, rows, fields) {
-      if (err) throw err;
-      console.log('The solution is: ', rows);
-      res.send('api', rows);
-    });
+router.get('/tasks/:begin?/:end?', function(req, res, next) {
+  if (!req.params.begin && !req.params.end) {
+    connection.query('SELECT * FROM `tasks` WHERE `user_id` = 1 ORDER BY `id` DESC LIMIT 1', 
+      function(err, rows, fields) {
+        if (err) throw err;
+        var endDate = rows[0].date;
+        var beginDate = new Date();
+        beginDate.setDate(endDate.getDate() - 7);
+
+        connection.query({
+            sql: 'SELECT * FROM `tasks` WHERE `user_id` = 1 AND `date` >= ? AND `date` <= ?',
+            values: [beginDate, endDate]
+          },
+          function(err, rows, fields) {
+            if (err) throw err;
+            //ToDo: fix case if period more than week data dont load
+            res.send('api', rows);
+          });
+      });
+  } else {
+    connection.query({
+        sql: 'SELECT * FROM `tasks` WHERE `user_id` = 1 AND `date` >= ? AND `date` < ?',
+        values: [req.params.begin, req.params.end]
+      },
+      function(err, rows, fields) {
+        if (err) throw err;
+        res.send('api', rows);
+      });
+  }
 });
 
 router.post('/task', function(req, res, next) {
