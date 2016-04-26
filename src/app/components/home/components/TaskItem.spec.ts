@@ -13,7 +13,7 @@ import {TasksService} from '../../../services/tasks';
 import {Timer} from './timer';
 import {Task} from '../../../models/task';
 
-describe('Timer', () => {
+describe('TaskItem', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEachProviders(() => [
     Timer,

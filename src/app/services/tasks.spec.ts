@@ -1,3 +1,4 @@
+import {provide} from 'angular2/core';
 import {
   it,
   inject,
@@ -10,12 +11,21 @@ import {
 // Load the implementations that should be tested
 import {TasksService} from './tasks';
 import {PeriodsService} from './periods';
+import {ProjectsService} from './projects';
+import {TasksApi} from './api/TasksApi';
+import {ProjectsApi} from './api/ProjectsApi';
+import {Http, Headers} from 'angular2/http';
 
-describe('Home', () => {
-  // provide our implementations or mocks to the dependency injector
+class HttpMock{}
+
+describe('Tasks', () => {
   beforeEachProviders(() => [
     TasksService,
-    PeriodsService
+    PeriodsService,
+    ProjectsService,
+    TasksApi,
+    ProjectsApi,
+    provide(Http, {useClass: HttpMock}),
   ]);
 
   it('should ...', inject([ TasksService ], (taskService) => {
