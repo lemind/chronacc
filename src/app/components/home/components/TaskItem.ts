@@ -36,6 +36,10 @@ export class TaskItem {
     this.timer.timerStart(this.task);
   }
 
+  oldTaskDelete() {
+    this._tasksService.deleteTask(this.task);
+  }
+
   taskDblClick() {
     this.isEdit = !this.isEdit;
   }

@@ -10,6 +10,7 @@ export class Task {
   project: Project;
   projectId: string;
   data: string;
+  delete: boolean;
 
   constructor(obj?: any) {
     this.id              = obj && obj.id              || '0';
@@ -20,6 +21,7 @@ export class Task {
     this.project         = obj && obj.project         || null;
     this.projectId       = obj && obj.projectId       || '1';
     this.data            = obj && obj.data            || '';
+    this.delete          = obj && obj.delete          || false;
   }
 }
 

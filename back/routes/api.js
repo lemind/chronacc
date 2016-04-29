@@ -95,6 +95,14 @@ router.put('/task/:id', function(req, res, next) {
     });
 });
 
+router.delete('/task/:id', function(req, res, next) {
+  connection.query('DELETE FROM `tasks` WHERE `id` = ' + req.params.id,
+    function(err, rows, fields) {
+      if (err) throw err;
+      res.jsonp(rows);
+    });
+});
+
 router.get('/projects/', function(req, res, next) {
   connection.query('SELECT * FROM `projects` WHERE `user_id` = 1',
     function(err, rows, fields) {

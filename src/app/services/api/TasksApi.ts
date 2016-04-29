@@ -101,6 +101,12 @@ export class TasksApi {
     }, error => console.log('Could not update tasks.', error));
   }
 
+  deleteTask(task: Task) {
+    this._http.delete('http://localhost:3000/api/task/' + task.id).map(response => response.json()).subscribe(data => {
+
+    }, error => console.log('Could not delete tasks.', error));
+  }
+
 }
 
 export var tasksApiInjectables: Array<any> = [

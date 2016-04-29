@@ -56,6 +56,11 @@ export class TasksService {
             }
           });
           let sortedTasks = oldTask ? tasks : tasks.concat(task);
+          if (task.delete) {
+            sortedTasks = sortedTasks.filter((_task: Task) => {
+              return task.id !== _task.id
+            });
+          }
           sortedTasks.sort((a, b) => {
             return parseInt(b.id) - parseInt(a.id);
           });
@@ -82,7 +87,6 @@ export class TasksService {
         newTask.active && this.currentTask.next(newTask);
       }
       this.firstTask = tasks[0];
-      console.log('set start task', tasks.length, this.firstTask, tasks);
     });
 
     //ToDo: move to another func
@@ -169,6 +173,11 @@ export class TasksService {
 
   setCurrentTask(currentTask: Task) {
     this.currentTask.next(currentTask);
+  }
+
+  deleteTask(task: Task) {
+    task.delete = true;
+    this.newTasks.next(task)
   }
 
 }
