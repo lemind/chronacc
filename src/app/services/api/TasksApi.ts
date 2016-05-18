@@ -1,5 +1,5 @@
-import {Injectable, bind} from 'angular2/core';
-import {Http, Headers} from 'angular2/http';
+import {Injectable, bind} from '@angular/core';
+import {Http, Headers} from '@angular/http';
 import {Task, Period} from '../../models/task';
 import {Project} from '../../models/project';
 import {Subject, Observable, Subscriber} from 'rxjs';

@@ -1,5 +1,5 @@
-import {Component, Input, Output} from 'angular2/core';
-import {NgClass} from 'angular2/common';
+import {Component, Input, Output} from '@angular/core';
+import {NgClass} from '@angular/common';
 import {TasksService} from '../../../services/tasks';
 import {ProjectsService} from '../../../services/services';
 import {Task} from '../../../models/task';

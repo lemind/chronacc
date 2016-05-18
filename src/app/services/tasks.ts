@@ -1,4 +1,4 @@
-import {Injectable, bind} from 'angular2/core';
+import {Injectable, bind} from '@angular/core';
 import {Subject, Observable, BehaviorSubject} from 'rxjs';
 
 import {tasks} from './mock-task';

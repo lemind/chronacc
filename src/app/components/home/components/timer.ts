@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {TasksService} from '../../../services/tasks';
 import {PeriodsService} from '../../../services/periods';
 import {Task} from '../../../models/task';

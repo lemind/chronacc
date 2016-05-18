@@ -1,4 +1,4 @@
-import {Injectable, bind} from 'angular2/core';
+import {Injectable, bind} from '@angular/core';
 import {Task, Period} from '../models/task';
 import {Subject, Observable} from 'rxjs';
 

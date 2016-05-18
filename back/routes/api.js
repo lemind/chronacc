@@ -28,7 +28,7 @@ router.get('/tasks/:begin?/:end?', function(req, res, next) {
           function(err, rows, fields) {
             if (err) throw err;
             //ToDo: fix case if period more than week data dont load
-            res.send('api', rows);
+            res.send(rows);
           });
       });
   } else {
@@ -38,7 +38,7 @@ router.get('/tasks/:begin?/:end?', function(req, res, next) {
       },
       function(err, rows, fields) {
         if (err) throw err;
-        res.send('api', rows);
+        res.send(rows);
       });
   }
 });
