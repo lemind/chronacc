@@ -78,6 +78,15 @@ export class TasksService {
       tasks.push(newTask);
       this.newTasks.next(newTask);
       newTask.active && this.currentTask.next(newTask);
+
+      //if it first comeback task from backend save period
+      if (newTask.active
+        && newTask.periods.length === 1
+        && !newTask.periods[0].e) {
+          let period: Period = new Period(newTask.periods[0]);
+          period.task = newTask;
+          this._periodsService.addPeriod(period);
+        }
     });
 
     this._tasksApi.tasks.subscribe((tasks: Task[]) => {
