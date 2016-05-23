@@ -187,6 +187,7 @@ export class TasksService {
   deleteTask(task: Task) {
     task.delete = true;
     this.newTasks.next(task)
+    this._tasksApi.deleteTask(task);
   }
 
 }
